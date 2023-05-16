@@ -1,4 +1,4 @@
-import { getUserById, getUsers } from '@/util/api/users';
+import { getUserById } from '@/util/api/users';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -38,16 +38,23 @@ async function fetchUser() {
   const response = await axios.get('/api/users/status');
   return response.data.ok;
 }
+async function getUsers(page?: number, pageSize?: number) {
+  const response = await axios.get('/api/users/all');
+  console.log('getUsers', response);
+  return response.data;
+}
 async function getMe() {
   const response = await axios.get('/api/users/me');
   return response.data;
 }
 
 const logOut = async () => {
+  console.log('logout', 'start');
   const response = await fetch('/api/users/logout', {
     method: 'POST',
   });
 
+  console.log('logout', response);
   if (!response.ok) {
     throw new Error('Logout failed');
   }

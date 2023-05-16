@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
+import { User } from '@prisma/client';
 
 const Wrapper = styled.div`
   position: relative;
@@ -90,21 +91,23 @@ const Group = styled.div`
   }
 `;
 interface IProps {
-  user: IUser;
+  user: User;
 }
 export default function UserCard({ user }: IProps) {
   return (
     <Group>
-      <Link href={`users/${user.MEMBER_ID}`}>
+      <Link href={`users/${user.id}`}>
         <Wrapper>
           <Overlay />
           <CardWrapper>
             <ContentsContainer>
               <AvatarContainer>
-                <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+                {user.profileImageUrl && (
+                  <img alt={user.name} src={user.profileImageUrl} />
+                )}
               </AvatarContainer>
               <InfoContainer>
-                <p style={{ fontWeight: '600' }}>{user.NICK_NAME}</p>
+                <p style={{ fontWeight: '600' }}>{user.name}</p>
                 <Location>
                   <FaLocationArrow />
                   <p>Seoul</p>

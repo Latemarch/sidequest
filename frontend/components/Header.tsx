@@ -12,19 +12,20 @@ import logoWhite from '../public/images/logoSymbolWhite.svg';
 import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
-import useUser from '@/hooks/react-query/useUser';
 import { HEADER_NAV } from '@/constant/constant';
+import useUser from '@/hooks/react-query/useUser';
 
 const Header = () => {
   const router = useRouter();
   const {
     getUserStatus: { data: status },
+    setUserLogOut,
   } = useUser();
 
   //로그인
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const logout = () => {
-    setIsLoggedIn(false);
+    setUserLogOut.mutate();
   };
 
   useEffect(() => {
@@ -111,11 +112,12 @@ const Header = () => {
                   <li key={name}>
                     <Link
                       href={HEADER_NAV[name]}
+                      onClick={logout}
                       className="noto-regular-12 main-btn"
                     >
                       <span>{name.toUpperCase()}</span>
                     </Link>
-                  </li>
+                  </li> //logout
                 )
               )
             : navNames.slice(5).map((name) => (
