@@ -14,6 +14,7 @@ import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 import { PROJECTS } from '@/dummy/project';
 import { COMMUNITY } from '@/dummy/community';
 
+//test
 const Home = () => {
   const [isModal, setIsModal] = useState(false);
 

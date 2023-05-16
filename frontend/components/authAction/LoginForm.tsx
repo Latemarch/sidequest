@@ -4,6 +4,11 @@ import { useForm, FieldErrors } from 'react-hook-form';
 import AuthCheckBox from './AuthCheckBox';
 import LogoImage from '../../public/images/logo.svg';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useApi from '@/hooks/useApi';
+import { useQueryClient } from 'react-query';
+import useUser from '@/hooks/react-query/useUser';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -33,21 +38,39 @@ const Submit = styled.input`
   padding: 20px;
   border-radius: 10px;
 `;
-interface ILoginForm {
+export interface ILoginForm {
   email: string;
   password: string;
   saveId: boolean;
   rememberMe: boolean;
 }
 export default function LoginForm() {
+  const queryClient = useQueryClient();
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  console.log(watch());
+  const [login, { data }] = useApi('/api/user/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
+    login(data);
   };
   const onInValid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  //user status true => home
+  const {
+    getUserStatus: { data: isLoggedIn },
+  } = useUser();
+  const router = useRouter();
+  if (isLoggedIn) router.replace('/');
+
+  useEffect(() => {
+    if (data?.ok) {
+      //로그인 성공 모달 or 페이지 필요. (opstional)
+      //일단 홈으로 이동.
+      queryClient.invalidateQueries(['loggedIn']);
+      router.push('/');
+    }
+  }, [data]);
   return (
     <Wrapper>
       <LogoBox>
@@ -69,8 +92,8 @@ export default function LoginForm() {
           type="password"
         />
         <OptionWrapper>
-          <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
-          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" />
+          {/* <AuthCheckBox register={register('saveId')} name="아이디 저장하기" />
+          <AuthCheckBox register={register('rememberMe')} name="자동 로그인" /> */}
         </OptionWrapper>
         <Submit type="submit" value={'Log In'} />
       </Form>
