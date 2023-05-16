@@ -46,7 +46,8 @@ export default App;
 const Box = styled.main`
   min-height: 100vh;
   padding: 0px calc((100% - 1280px) / 2);
-  /* padding-top: 80px; */
+  padding-top: 80px;
+  flex: 1;
 `;
 
 const ModalBox = styled.div`
