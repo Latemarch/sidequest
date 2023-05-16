@@ -12,6 +12,7 @@ import CommunityCardBox from '@/components/card_box/CommunityCardBox';
 import ProjectSkeleton from '@/components/skeleton/ProjectSkeleton';
 import CommunityItemSkeleton from '@/components/skeleton/CommunityItemSkeleton';
 
+//test
 const Home = () => {
   const [isModal, setIsModal] = useState(false);
 
