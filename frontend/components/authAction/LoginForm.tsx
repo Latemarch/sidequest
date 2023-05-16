@@ -47,7 +47,7 @@ export interface ILoginForm {
 export default function LoginForm() {
   const queryClient = useQueryClient();
   const { register, watch, handleSubmit } = useForm<ILoginForm>();
-  const [login, { data }] = useApi('/api/user/login');
+  const [login, { data }] = useApi('/api/users/login');
   const onValid = (data: ILoginForm) => {
     console.log('valid');
     login(data);

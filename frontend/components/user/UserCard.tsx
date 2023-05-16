@@ -1,4 +1,4 @@
-import { IUser } from '@/util/api/user';
+import { IUser } from '@/util/api/users';
 import { AiFillStar } from 'react-icons/ai';
 import { FaLocationArrow, FaNodeJs } from 'react-icons/fa';
 import { FaReact } from 'react-icons/fa';

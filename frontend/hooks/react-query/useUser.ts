@@ -1,4 +1,4 @@
-import { getUserById, getUsers } from '@/util/api/user';
+import { getUserById, getUsers } from '@/util/api/users';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -35,16 +35,16 @@ export default function useUser() {
 }
 
 async function fetchUser() {
-  const response = await axios.get('/api/user/status');
+  const response = await axios.get('/api/users/status');
   return response.data.ok;
 }
 async function getMe() {
-  const response = await axios.get('/api/user/me');
+  const response = await axios.get('/api/users/me');
   return response.data;
 }
 
 const logOut = async () => {
-  const response = await fetch('/api/user/logout', {
+  const response = await fetch('/api/users/logout', {
     method: 'POST',
   });
 

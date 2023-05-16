@@ -38,7 +38,7 @@ interface ISignUpForm {
 }
 
 export default function SignUpForm() {
-  const [signUp, { isLoading, data }] = useApi('/api/user/signup');
+  const [signUp, { isLoading, data }] = useApi('/api/users/signup');
   const {
     register,
     getValues,
