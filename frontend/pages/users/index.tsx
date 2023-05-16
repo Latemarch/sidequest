@@ -27,7 +27,7 @@ const CardWrapper = styled.div`
     grid-template-columns: repeat(4, 1fr);
   } */
 `;
-const User = () => {
+const Users = () => {
   const router = useRouter();
   useEffect(() => {
     window.scrollTo({
@@ -54,4 +54,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Users;

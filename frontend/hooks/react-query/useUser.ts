@@ -1,4 +1,4 @@
-import { getUserById } from '@/util/api/users';
+import { User } from '@prisma/client';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -10,12 +10,12 @@ export default function useUser() {
   const getMyInfo = useQuery(['users', 'me'], () => getMe(), {
     staleTime: 1000 * 60 * 5,
   });
-  const getUser = (id: number) =>
-    useQuery(['users', id], () => getUserById(id), {
+  const getUserById = (id: number) =>
+    useQuery(['users', id], () => getUser(id), {
       staleTime: 1000 * 60 * 5,
     });
 
-  const getUserStatus = useQuery(['loggedIn'], () => fetchUser(), {
+  const getUserStatus = useQuery(['loggedIn'], () => getStatus(), {
     staleTime: Infinity,
   });
 
@@ -27,23 +27,22 @@ export default function useUser() {
 
   return {
     userQuery, //
-    getUser,
+    getUserById,
     getUserStatus,
     setUserLogOut,
     getMyInfo,
   };
 }
 
-async function fetchUser() {
+async function getStatus(): Promise<boolean> {
   const response = await axios.get('/api/users/status');
   return response.data.ok;
 }
-async function getUsers(page?: number, pageSize?: number) {
+async function getUsers(page?: number, pageSize?: number): Promise<User[]> {
   const response = await axios.get('/api/users/all');
-  console.log('getUsers', response);
   return response.data;
 }
-async function getMe() {
+async function getMe(): Promise<User> {
   const response = await axios.get('/api/users/me');
   return response.data;
 }
@@ -58,4 +57,8 @@ const logOut = async () => {
   if (!response.ok) {
     throw new Error('Logout failed');
   }
+};
+const getUser = async (id: number) => {
+  const response = await axios.get(`/api/users/${id}`);
+  return response.data;
 };
