@@ -10,8 +10,6 @@ export default function withHandler({
   handler,
   isPrivate = true,
 }: IProps) {
-  console.log('epcted', method, isPrivate);
-
   return async function (req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== method) {
       return res.status(405).json({ got: req.method, expected: method });

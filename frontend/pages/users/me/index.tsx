@@ -75,10 +75,10 @@ const DummyBox2 = styled.div`
   margin-top: 10px;
   border-radius: 10px;
 `;
-export default function me() {
+export default function Me() {
   const {
     getMyInfo: { data: user },
-  } = useUser();
+  } = useUser({});
 
   return (
     <>

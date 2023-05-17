@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Tag from '../Tag';
 import Link from 'next/link';
 import Stack from '../stack/Stack';
-import { IUser } from '@/types/user';
 import { User } from '@prisma/client';
 
 const Wrapper = styled.div`
