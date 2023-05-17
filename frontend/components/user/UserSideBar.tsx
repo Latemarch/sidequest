@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -38,10 +38,16 @@ const Input = styled.input`
 `;
 
 export default function UserSideBar() {
+  const [keyword, setKeyword] = useState<string>('');
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+  const searchUser = () => {};
   return (
     <Wrapper>
       <p className="nanum-bold">Users</p>
-      <Input />
+      <Input value={keyword} onChange={handleChange} />
+      <button onClick={searchUser}></button>
       <p>직군별 검색</p>
       <p>스택별 검색</p>
       <p>지역별 검색</p>
