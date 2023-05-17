@@ -66,9 +66,12 @@ const UserPage = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  const { getUserById } = useUser();
+
+  const {
+    getUserById: { data: user },
+  } = useUser({ id: id ? +id : undefined });
+
   if (!id) return 'Loading...';
-  const { data: user } = getUserById(+id);
 
   return user ? (
     <GridBox>

@@ -59,7 +59,7 @@ export default function LoginForm() {
   //user status true => home
   const {
     getUserStatus: { data: isLoggedIn },
-  } = useUser();
+  } = useUser({});
   const router = useRouter();
   if (isLoggedIn) router.replace('/');
 
