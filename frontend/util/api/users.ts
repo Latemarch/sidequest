@@ -11,7 +11,7 @@ export async function getUsers(): Promise<User[]> {
     .then((res) => res.data);
 }
 
-export async function getUserById(id: number): Promise<IUser> {
+export async function getUserById(id: number): Promise<User> {
   return api(`/users/${id}`) //
     .then((res) => res.data);
 }
