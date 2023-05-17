@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { BiImageAdd } from 'react-icons/bi';
-import { User } from '@prisma/client';
 
 const Container = styled.div`
   display: flex;
@@ -114,11 +112,13 @@ interface ISubmit {
   [key: string]: string;
 }
 const BASE_URL = 'http://43.201.253.57:8080/';
-export default function edit() {
+export default function Edit() {
   const queryClient = useQueryClient();
+
   const {
     getMyInfo: { data: user },
   } = useUser();
+
   const { register, handleSubmit } = useForm();
 
   const [submit, { data }] = useApi('/api/users/edit');

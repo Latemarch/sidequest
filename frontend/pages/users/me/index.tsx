@@ -93,7 +93,10 @@ export default function me() {
                 <InfoContainer
                   keyNode={
                     <AvatarContainer style={{ width: '70px', height: '70px' }}>
-                      <img alt={user.NICK_NAME} src={user.PROFILE_IMAGE} />
+                      <img
+                        alt={user.name}
+                        src={user.profileImageUrl || undefined}
+                      />
                     </AvatarContainer>
                   }
                   contentNode={
