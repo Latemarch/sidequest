@@ -49,7 +49,13 @@ async function getStatus(): Promise<boolean> {
   return response.data.ok;
 }
 async function getUsers(page?: number, pageSize?: number): Promise<User[]> {
-  const response = await axios.get('/api/users/all');
+  console.log('getUsers');
+  const response = await axios.post('/api/users/all', {
+    page,
+    pageSize,
+  });
+
+  console.log('getUsers', response);
   return response.data;
 }
 async function getMe(): Promise<User> {
