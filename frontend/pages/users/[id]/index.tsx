@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 // import UserProfile from '@/components/user/UserProfile';
 import { useEffect, useState } from 'react';
 import useUser from '@/hooks/react-query/useUser';
+import UserProfile from '@/components/user/UserProfile';
 
 //유저 페이지 입니다. 경로 '/user/[id]'  예시 >>  /user/1
 const UserInfoContainer = styled.div`
@@ -57,6 +58,11 @@ const Category = styled.div.attrs({
 const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
+  if (!id) return 'Loading...';
+
+  const { getUserById } = useUser();
+  const { data: user } = getUserById(+id);
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -64,23 +70,18 @@ const UserPage = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  //서버에 유저 확인 요청
-  if (!id) return 'Loading...';
-
-  const { getUser } = useUser();
-  const { data: user } = getUser(+id);
 
   return user ? (
     <GridBox>
       <UserInfoContainer>
-        {/* <UserProfile user={USERS[0]} /> */}
+        <UserProfile user={user} />
         <Button>메일 보내기</Button>
         <Button>채팅하기</Button>
       </UserInfoContainer>
       <ContentsContainer>
         <UserDescription>
           <ContentTitle>자기 소개란</ContentTitle>
-          <span>{user?.ABOUT_ME}</span>
+          <span>{user?.aboutMe}</span>
         </UserDescription>
         <Category>프로젝트 | 게시글 | 댓글 </Category>
         <Contents>

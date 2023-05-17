@@ -10,16 +10,17 @@ import logoWhite from '../public/images/logoSymbolWhite.svg';
 import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
-import useUser from '@/hooks/react-query/useUser';
 import { HEADER_NAV } from '@/constant/constant';
 import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userStatus } from '@/recoil/atom';
+import useUser from '@/hooks/react-query/useUser';
 
 const Header = () => {
   const router = useRouter();
   const {
     getUserStatus: { data: status },
+    setUserLogOut,
   } = useUser();
 
   //로그인
@@ -113,11 +114,12 @@ const Header = () => {
                   <li key={name} onClick={logout}>
                     <Link
                       href={HEADER_NAV[name]}
+                      onClick={logout}
                       className="noto-regular-12 main-btn"
                     >
                       <span>{name.toUpperCase()}</span>
                     </Link>
-                  </li>
+                  </li> //logout
                 )
               )
             : navNames.slice(5).map((name) => (

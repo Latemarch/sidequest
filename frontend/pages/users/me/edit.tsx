@@ -120,7 +120,7 @@ export default function edit() {
   } = useUser();
   const { register, handleSubmit } = useForm();
 
-  const [submit, { data }] = useApi('/api/user/edit');
+  const [submit, { data }] = useApi('/api/users/edit');
 
   const onValid = (data: ISubmit) => {
     submit(data);

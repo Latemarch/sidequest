@@ -1,9 +1,7 @@
-import { UserObj } from '@/types/types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { USERS_FLTER } from '@/constant/constant';
 import { BsSearch } from 'react-icons/bs';
 import Btn from '../button/Btn';
 
@@ -44,6 +42,11 @@ const Input = styled.input`
 `;
 
 export default function UserSideBar() {
+  const [keyword, setKeyword] = useState<string>('');
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+  const searchUser = () => {};
   return (
     <Wrapper>
       <p className="nanum-bold">Users</p>
