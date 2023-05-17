@@ -12,6 +12,7 @@
     "@babel/core": "^7.21.5",
     "@babel/preset-env": "^7.21.5",
     "@emailjs/browser": "^3.11.0",
+    "@next/eslint-plugin-next": "^13.4.2",
     "@prisma/client": "^4.13.0",
     "@sendgrid/mail": "^7.7.0",
     "@toast-ui/editor": "^3.2.2",

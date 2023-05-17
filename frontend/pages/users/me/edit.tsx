@@ -141,7 +141,7 @@ export default function edit() {
       {user && (
         <>
           <ImgWrapper>
-            <img alt={user.name} src={user.profileImageUrl} />
+            <img alt={user.name} src={user.profileImageUrl || undefined} />
             <P>Change Image</P>
           </ImgWrapper>
           <form onSubmit={handleSubmit(onValid, onInValid)}>
@@ -164,7 +164,10 @@ export default function edit() {
             <Label>Email</Label>
             <Input {...register('email')} placeholder={user.email} />
             <Label>About Me</Label>
-            <Input {...register('aboutMe')} placeholder={user.aboutMe} />
+            <Input
+              {...register('aboutMe')}
+              placeholder={user.aboutMe || 'aboutMe'}
+            />
             <button>submit</button>
           </form>
         </>
