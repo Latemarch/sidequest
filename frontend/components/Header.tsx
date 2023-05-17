@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { userStatus } from '@/recoil/atom';
-import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
 import logoWhite from '../public/images/logoSymbolWhite.svg';
@@ -14,6 +13,7 @@ import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
 import useUser from '@/hooks/react-query/useUser';
+import { useRouter } from 'next/router';
 
 const Header = () => {
   const router = useRouter();
@@ -31,17 +31,6 @@ const Header = () => {
   useEffect(() => {
     status && setIsLoggedIn(status);
   }, [status]);
-  //네비
-  const navArr = {
-    community: '/community',
-    project: '/project',
-    users: '/users',
-    mypage: '/mypage',
-    logout: '/',
-    login: '/login',
-    signUp: '/signup',
-  };
-
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
 
