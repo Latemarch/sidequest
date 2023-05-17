@@ -5,11 +5,11 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const Wrapper = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -111,10 +111,9 @@ const LabelContainer = styled.div`
 interface ISubmit {
   [key: string]: string;
 }
-const BASE_URL = 'http://43.201.253.57:8080/';
-export default function Edit() {
-  const queryClient = useQueryClient();
+// const BASE_URL = 'http://43.201.253.57:8080/';
 
+export default function Edit() {
   const {
     getMyInfo: { data: user },
   } = useUser();
@@ -130,6 +129,7 @@ export default function Edit() {
     console.log(errors);
   };
 
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (data && data.ok) {
       queryClient.invalidateQueries(['users', 'me']);
