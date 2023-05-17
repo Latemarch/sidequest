@@ -1,12 +1,12 @@
+import { User } from '@prisma/client';
 import { api } from '.';
-import { IUser } from '@/types/user';
 
-export async function getAuth(): Promise<IUser> {
+export async function getAuth(): Promise<User> {
   return api('/users/1') //
     .then((res) => res.data);
 }
 
-export async function getUsers(): Promise<IUser[]> {
+export async function getUsers(): Promise<User[]> {
   return api('/users') //
     .then((res) => res.data);
 }

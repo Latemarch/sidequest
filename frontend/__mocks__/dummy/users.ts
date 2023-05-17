@@ -1,6 +1,4 @@
-import { IUser } from '@/types/user';
-
-export const USERS: IUser[] = [
+export const USERS = [
   {
     MEMBER_ID: 1,
     EMAIL: 'uverrills0@bloomberg.com',
