@@ -11,7 +11,6 @@ import BannerSlider from './BannerSlider';
 import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import { HEADER_NAV } from '@/constant/constant';
-import { deleteCookie, getCookie } from '@/util/cookie';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userStatus } from '@/recoil/atom';
 import useUser from '@/hooks/react-query/useUser';
@@ -27,11 +26,11 @@ const Header = () => {
   const [loggedIn, setLoggedIn] = useRecoilState(userStatus);
   const logout = () => {
     // deleteCookie('accessToken');
-    setLoggedIn(null);
+    setLoggedIn(false);
   };
 
   useEffect(() => {
-    setLoggedIn(status);
+    status && setLoggedIn(status);
   }, [status]);
   //네비
   const navArr = {

@@ -5,6 +5,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { BiImageAdd } from 'react-icons/bi';
+import { User } from '@prisma/client';
 
 const Container = styled.div`
   display: flex;
@@ -157,7 +158,9 @@ export default function edit() {
               placeholder={user.yearOfDev + ''}
             />
             <Label>Phone</Label>
-            <Input {...register('phone')} placeholder={user.phone} />
+            {user.phone && (
+              <Input {...register('phone')} placeholder={user.phone} />
+            )}
             <Label>Email</Label>
             <Input {...register('email')} placeholder={user.email} />
             <Label>About Me</Label>
