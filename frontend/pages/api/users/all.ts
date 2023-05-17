@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(200).json(users);
   } catch (error) {
-    return res.status(500).json(console.log);
+    return res.status(500).json('somethingworkng');
   }
 }
 
