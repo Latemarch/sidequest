@@ -1,9 +1,7 @@
-//홈 페이지 입니다. 경로 '/'
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { api } from '@/util/api';
 import Message from '@/components/Message';
-import { useState } from 'react';
 import { Project } from '@/types/project';
 import { Community } from '@/types/community';
 import { useCommunity } from '@/hooks/react-query/useCommunity';
@@ -16,8 +14,6 @@ import { COMMUNITY } from '@/dummy/community';
 
 //test
 const Home = () => {
-  const [isModal, setIsModal] = useState(false);
-
   // useQuery를 사용하여 데이터 fetch
   const { data, isLoading, error } = useQuery<
     {

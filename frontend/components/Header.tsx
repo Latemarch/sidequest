@@ -2,9 +2,7 @@ import Image from 'next/image';
 import { FaUserAlt } from 'react-icons/fa';
 import { FiMenu } from 'react-icons/fi';
 import Link from 'next/link';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isLoggedInState } from '@/recoil/atom';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import logo from '../public/images/logo.svg';
@@ -14,6 +12,9 @@ import Btn from './button/Btn';
 import { useOffResize } from '@/hooks/useOffResize';
 import useUser from '@/hooks/react-query/useUser';
 import { HEADER_NAV } from '@/constant/constant';
+import { deleteCookie, getCookie } from '@/util/cookie';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { userStatus } from '@/recoil/atom';
 
 const Header = () => {
   const router = useRouter();
@@ -22,13 +23,14 @@ const Header = () => {
   } = useUser();
 
   //로그인
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  const [loggedIn, setLoggedIn] = useRecoilState(userStatus);
   const logout = () => {
-    setIsLoggedIn(false);
+    // deleteCookie('accessToken');
+    setLoggedIn(null);
   };
 
   useEffect(() => {
-    setIsLoggedIn(status);
+    setLoggedIn(status);
   }, [status]);
   //네비
   const navArr = {
@@ -99,7 +101,7 @@ const Header = () => {
               </a>
             </li>
           ))}
-          {isLoggedIn
+          {getCookie('accessToken')
             ? navNames.slice(3, 5).map((name) =>
                 name === 'mypage' ? (
                   <li key={name}>
@@ -108,7 +110,7 @@ const Header = () => {
                     </Link>
                   </li>
                 ) : (
-                  <li key={name}>
+                  <li key={name} onClick={logout}>
                     <Link
                       href={HEADER_NAV[name]}
                       className="noto-regular-12 main-btn"
@@ -131,7 +133,7 @@ const Header = () => {
         </NavMenu>
         <ModalNav nav={nav}>
           <ul>
-            {isLoggedIn
+            {getCookie('accessToken')
               ? navNames.slice(0, 4).map((name) => (
                   <li
                     className="nanum-bold"
@@ -152,7 +154,7 @@ const Header = () => {
                 ))}
           </ul>
           <div className="nav-users">
-            {isLoggedIn
+            {getCookie('accessToken')
               ? navNames.slice(4, 5).map((name) => (
                   <div className="logout" key={name} onClick={logout}>
                     <Btn>

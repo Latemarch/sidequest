@@ -4,23 +4,64 @@ import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
+import { BiImageAdd } from 'react-icons/bi';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Wrapper = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  padding: 20px;
-  margin-top: 20px;
-  width: 300px;
+  /* padding: 20px; */
+  width: 800px;
+  height: 700px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  #picture {
+    /* display: none; */
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    border-radius: 10px;
+  }
+  span {
+    justify-content: flex-end;
+  }
 `;
 const ImgWrapper = styled.div`
   display: flex;
   position: relative;
-  width: 150px;
-  height: 150px;
-  justify-content: center;
-  /* align-items: center; */
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
+  margin-right: 80px;
+  margin-top: 30px;
+  background-color: #cbcbcb;
+
+  input {
+    border: 1px solid red;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  padding-top: 40px;
 `;
 const P = styled.div`
   display: flex;
@@ -63,9 +104,15 @@ const Label = styled.p.attrs({ className: 'nanum-bold' })`
   padding-top: 20px;
   padding-bottom: 10px;
 `;
+
+const LabelContainer = styled.div`
+  width: 300px;
+`;
+
 interface ISubmit {
   [key: string]: string;
 }
+const BASE_URL = 'http://43.201.253.57:8080/';
 export default function edit() {
   const queryClient = useQueryClient();
   const {
