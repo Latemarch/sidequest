@@ -42,11 +42,6 @@ const Input = styled.input`
 `;
 
 export default function UserSideBar() {
-  const [keyword, setKeyword] = useState<string>('');
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
-  const searchUser = () => {};
   return (
     <Wrapper>
       <p className="nanum-bold">Users</p>

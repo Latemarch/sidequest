@@ -2,9 +2,10 @@ import GridBox from '@/components/GridBox';
 import UserCard from '@/components/user/UserCard';
 import UserSideBar from '@/components/user/UserSideBar';
 import useUser from '@/hooks/react-query/useUser';
+import useApi from '@/hooks/useApi';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 //유저 페이지 입니다. 경로 '/user/'
 
@@ -28,11 +29,19 @@ const CardWrapper = styled.div`
   } */
 `;
 const Users = () => {
+  const [searchUser, { data }] = useApi('/api/users/search');
   const router = useRouter();
   const {
     userQuery: { data: users },
   } = useUser({});
-  users && console.log(users);
+
+  const [keyword, setKeyword] = useState<string>('');
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+  const handleClick = () => {
+    searchUser(keyword);
+  };
 
   useEffect(() => {
     window.scrollTo({
@@ -46,6 +55,12 @@ const Users = () => {
     <GridBox>
       <UserSideBar />
       <RightColumn>
+        <input
+          onChange={handleChange}
+          value={keyword}
+          placeholder="Search user..."
+        />
+        <button onClick={handleClick}>찾기</button>
         <p className="nanum-bold">Star | 가입일 | 활동</p>
         <CardWrapper>
           {users &&

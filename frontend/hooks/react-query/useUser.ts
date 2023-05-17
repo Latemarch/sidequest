@@ -7,25 +7,23 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 interface IProps {
   id?: number | undefined;
   name?: string | undefined;
+  page?: number;
+  pageSize?: number;
 }
 
-export default function useUser({ id, name }: IProps) {
+export default function useUser({ id, name, page, pageSize }: IProps) {
   const setIsLoggedIn = useSetRecoilState(userStatus);
   const queryClient = useQueryClient();
-  const userQuery = useQuery(['users'], () => getUsers());
-  const getMyInfo = useQuery(['users', 'me'], () => getMe());
 
-  const getUserById = useQuery(['loggedIn', id], () => getUser(id), {
-    staleTime: Infinity,
-  });
+  const userQuery = useQuery(['users'], () => getUsers(page, pageSize));
 
-  const searchUserByName = useQuery(['users', name], () => searchUser(name), {
-    staleTime: Infinity,
-  });
+  const getMyInfo = useQuery(['users', 'me'], getMe);
 
-  const getUserStatus = useQuery(['loggedIn'], () => getStatus(), {
-    staleTime: Infinity,
-  });
+  const getUserById = useQuery(['loggedIn', id], () => getUser(id));
+
+  const searchUserByName = useQuery(['users', name], () => searchUser(name));
+
+  const getUserStatus = useQuery(['loggedIn'], getStatus);
 
   const setUserLogOut = useMutation(logOut, {
     onSuccess: () => {
@@ -49,7 +47,14 @@ async function getStatus(): Promise<boolean> {
   return response.data.ok;
 }
 async function getUsers(page?: number, pageSize?: number): Promise<User[]> {
-  const response = await axios.get('/api/users/all');
+  const response = await axios.get('/api/users/all', {
+    params: {
+      page,
+      pageSize,
+      // ...(page ? { page } : {}),
+      // ...(pageSize ? { pageSize } : {}),
+    },
+  });
   return response.data;
 }
 async function getMe(): Promise<User> {
@@ -72,13 +77,11 @@ const getUser = async (id: number | undefined) => {
   return response.data;
 };
 
-const searchUser = async (name: string | undefined) => {
+export const searchUser = async (name: string | undefined) => {
   // if (!name) throw new Error('ID is undefined');
   if (!name) return;
   const response = await axios.post(`/api/users/find`, {
-    params: {
-      name,
-    },
+    name,
   });
   return response.data;
 };
