@@ -62,7 +62,6 @@ const UserPage = () => {
 
   const { getUserById } = useUser();
   const { data: user } = getUserById(+id);
-  user && console.log('user', user);
 
   useEffect(() => {
     window.scrollTo({
@@ -75,7 +74,7 @@ const UserPage = () => {
   return user ? (
     <GridBox>
       <UserInfoContainer>
-        {/* <UserProfile user={USERS[0]} /> */}
+        <UserProfile user={user} />
         <Button>메일 보내기</Button>
         <Button>채팅하기</Button>
       </UserInfoContainer>

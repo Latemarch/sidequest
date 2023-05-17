@@ -14,6 +14,10 @@ export default function useUser() {
     useQuery(['users', id], () => getUser(id), {
       staleTime: 1000 * 60 * 5,
     });
+  const searchUserByName = (name: string) =>
+    useQuery(['users', name], () => searchUser(name), {
+      staleTime: 1000 * 60 * 5,
+    });
 
   const getUserStatus = useQuery(['loggedIn'], () => getStatus(), {
     staleTime: Infinity,
@@ -31,6 +35,7 @@ export default function useUser() {
     getUserStatus,
     setUserLogOut,
     getMyInfo,
+    searchUserByName,
   };
 }
 
@@ -40,6 +45,8 @@ async function getStatus(): Promise<boolean> {
 }
 async function getUsers(page?: number, pageSize?: number): Promise<User[]> {
   const response = await axios.get('/api/users/all');
+
+  console.log('users', response);
   return response.data;
 }
 async function getMe(): Promise<User> {
@@ -48,17 +55,24 @@ async function getMe(): Promise<User> {
 }
 
 const logOut = async () => {
-  console.log('logout', 'start');
   const response = await fetch('/api/users/logout', {
     method: 'POST',
   });
 
-  console.log('logout', response);
   if (!response.ok) {
     throw new Error('Logout failed');
   }
 };
 const getUser = async (id: number) => {
   const response = await axios.get(`/api/users/${id}`);
+  return response.data;
+};
+
+const searchUser = async (name: string) => {
+  const response = await axios.post(`/api/users/find`, {
+    params: {
+      name,
+    },
+  });
   return response.data;
 };

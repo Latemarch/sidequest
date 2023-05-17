@@ -29,6 +29,11 @@ const CardWrapper = styled.div`
 `;
 const Users = () => {
   const router = useRouter();
+  const {
+    userQuery: { data: users },
+  } = useUser();
+  users && console.log(users);
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -36,10 +41,7 @@ const Users = () => {
       behavior: 'smooth',
     });
   }, [router]);
-  const {
-    userQuery: { data: users },
-  } = useUser();
-  users && console.log(users);
+
   return (
     <GridBox>
       <UserSideBar />

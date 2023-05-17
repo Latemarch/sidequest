@@ -127,7 +127,7 @@ export default function UserCard({ user }: IProps) {
                 'react_query',
                 'type_scriypt',
               ].map((stack) => (
-                <Stack skill={stack} />
+                <Stack key={stack} skill={stack} />
               ))}
             </StackWrapper>
             <TagWrapper>
