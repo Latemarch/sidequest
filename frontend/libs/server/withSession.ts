@@ -5,6 +5,5 @@ const cookieOpstions = {
 };
 
 export default function (fn: any) {
-  console.log(process.env.COOKIE_PASSWORD!);
   return withIronSessionApiRoute(fn, cookieOpstions);
 }

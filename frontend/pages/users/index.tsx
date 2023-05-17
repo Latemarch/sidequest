@@ -31,7 +31,7 @@ const Users = () => {
   const router = useRouter();
   const {
     userQuery: { data: users },
-  } = useUser();
+  } = useUser({});
   users && console.log(users);
 
   useEffect(() => {

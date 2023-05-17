@@ -116,7 +116,7 @@ interface ISubmit {
 export default function Edit() {
   const {
     getMyInfo: { data: user },
-  } = useUser();
+  } = useUser({});
 
   const { register, handleSubmit } = useForm();
 

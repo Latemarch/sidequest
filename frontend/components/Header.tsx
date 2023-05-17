@@ -20,7 +20,7 @@ const Header = () => {
   const {
     getUserStatus: { data: status },
     setUserLogOut,
-  } = useUser();
+  } = useUser({});
 
   //로그인
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(userStatus);
@@ -30,7 +30,7 @@ const Header = () => {
 
   useEffect(() => {
     status && setIsLoggedIn(status);
-  }, [status]);
+  }, [status, setIsLoggedIn]);
   //네비 이름 배열
   const navNames = useMemo(() => Object.keys(HEADER_NAV), []);
 
