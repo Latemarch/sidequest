@@ -58,10 +58,6 @@ const Category = styled.div.attrs({
 const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
-  if (!id) return 'Loading...';
-
-  const { getUserById } = useUser();
-  const { data: user } = getUserById(+id);
 
   useEffect(() => {
     window.scrollTo({
@@ -70,6 +66,9 @@ const UserPage = () => {
       behavior: 'smooth',
     });
   }, [router]);
+  const { getUserById } = useUser();
+  if (!id) return 'Loading...';
+  const { data: user } = getUserById(+id);
 
   return user ? (
     <GridBox>
