@@ -60,6 +60,10 @@ const UserPage = () => {
   const router = useRouter();
   const id = router.query.id;
 
+  const {
+    getUserById: { data: user, isLoading },
+  } = useUser({ id: id ? +id : undefined });
+
   useEffect(() => {
     window.scrollTo({
       top: 670,
@@ -68,12 +72,7 @@ const UserPage = () => {
     });
   }, [router]);
 
-  const {
-    getUserById: { data: user },
-  } = useUser({ id: id ? +id : undefined });
-
-  if (!id) return 'Loading...';
-
+  if (isLoading) return 'Loading...';
   return user ? (
     <GridBox>
       <UserInfoContainer>
@@ -84,7 +83,7 @@ const UserPage = () => {
       <ContentsContainer>
         <UserDescription>
           <ContentTitle>자기 소개란</ContentTitle>
-          <span>{user?.aboutMe}</span>
+          <span>{user.aboutMe}</span>
         </UserDescription>
         <Category>프로젝트 | 게시글 | 댓글 </Category>
         <Contents>

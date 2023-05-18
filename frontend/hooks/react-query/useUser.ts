@@ -6,25 +6,19 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface IProps {
   id?: number | undefined;
-  name?: string | undefined;
+  keyword?: string | undefined;
   page?: number;
   pageSize?: number;
 }
 
-export default function useUser({ id, name, page, pageSize }: IProps) {
+export default function useUser({ id, keyword, page, pageSize }: IProps) {
   const setIsLoggedIn = useSetRecoilState(userStatus);
   const queryClient = useQueryClient();
 
   const userQuery = useQuery(['users'], () => getUsers(page, pageSize));
 
-  const getMyInfo = useQuery(['users', 'me'], getMe);
-
-  const getUserById = useQuery(['loggedIn', id], () => getUser(id));
-
-  const searchUserByName = useQuery(['users', name], () => searchUser(name));
-
   const getUserStatus = useQuery(['loggedIn'], getStatus);
-
+  const getMyInfo = useQuery(['users', 'me'], getMe);
   const setUserLogOut = useMutation(logOut, {
     onSuccess: () => {
       queryClient.invalidateQueries(['loggedIn']);
@@ -32,13 +26,19 @@ export default function useUser({ id, name, page, pageSize }: IProps) {
     },
   });
 
+  const getUserById = useQuery(['loggedIn', id], () => getUser(id));
+
+  const searchUserByKeyword = useQuery(['users', keyword], () =>
+    searchUser(keyword)
+  );
+
   return {
     userQuery, //
     getUserById,
     getUserStatus,
     setUserLogOut,
     getMyInfo,
-    searchUserByName,
+    searchUserByKeyword,
   };
 }
 
@@ -77,11 +77,11 @@ const getUser = async (id: number | undefined) => {
   return response.data;
 };
 
-export const searchUser = async (name: string | undefined) => {
+export const searchUser = async (keyword: string | undefined) => {
   // if (!name) throw new Error('ID is undefined');
-  if (!name) return;
-  const response = await axios.post(`/api/users/find`, {
-    name,
+  if (!keyword) return;
+  const response = await axios.get(`/api/users/search`, {
+    params: { keyword },
   });
   return response.data;
 };

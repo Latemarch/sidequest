@@ -3,13 +3,13 @@ import withHandler from '@/libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { name } = req.body;
+  const keyword = req.query.keyword as string;
 
   // 이름에 검색어가 포함된 모든 사용자 찾기
-  const foundUsers = await client.user.findMany({
+  const searchedUsers = await client.user.findMany({
     where: {
       name: {
-        contains: name,
+        contains: keyword,
       },
     },
     select: {
@@ -26,12 +26,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if (foundUsers.length === 0) {
+  if (searchedUsers.length === 0) {
     return res.status(200).json({ ok: false, msg: 'user not found' });
   }
 
   // 일치하는 사용자들 반환
-  return res.status(200).json({ ok: true, foundUsers });
+  return res.status(200).json(searchedUsers);
 }
 
-export default withHandler({ method: 'POST', handler, isPrivate: false });
+export default withHandler({ method: 'GET', handler, isPrivate: false });

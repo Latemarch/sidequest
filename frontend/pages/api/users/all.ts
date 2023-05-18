@@ -8,6 +8,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const users = await client.user.findMany({
+      where: {
+        isVerified: true,
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       select: {
@@ -21,6 +24,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         stacks: true,
         roles: true,
         totalStar: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 

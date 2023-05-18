@@ -29,18 +29,28 @@ const CardWrapper = styled.div`
   } */
 `;
 const Users = () => {
-  const [searchUser, { data }] = useApi('/api/users/search');
-  const router = useRouter();
-  const {
-    userQuery: { data: users },
-  } = useUser({});
+  const [inputValue, setInputValue] = useState<string>('');
+  const [users, setUsers] = useState<User[]>();
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState<number | undefined>(undefined);
+  const [pageSize, setPageSize] = useState<number | undefined>(undefined);
 
-  const [keyword, setKeyword] = useState<string>('');
+  const {
+    userQuery: { data: allUsers },
+    searchUserByKeyword: { data: searchedUsers },
+  } = useUser({ page, pageSize, keyword });
+
+  const router = useRouter();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
+    setInputValue(e.target.value);
   };
   const handleClick = () => {
-    searchUser(keyword);
+    if (inputValue.trim().length < 1) {
+      setUsers(allUsers);
+    } else {
+      setKeyword(inputValue);
+    }
   };
 
   useEffect(() => {
@@ -51,13 +61,21 @@ const Users = () => {
     });
   }, [router]);
 
+  useEffect(() => {
+    setUsers(allUsers);
+  }, [allUsers]);
+  useEffect(() => {
+    setUsers(searchedUsers);
+  }, [searchedUsers]);
+
+  users && console.log(users);
   return (
     <GridBox>
       <UserSideBar />
       <RightColumn>
         <input
           onChange={handleChange}
-          value={keyword}
+          value={inputValue}
           placeholder="Search user..."
         />
         <button onClick={handleClick}>찾기</button>
