@@ -14,8 +14,7 @@ import { BsSearch } from 'react-icons/bs';
 import { PROJECT_FILTER } from '@/constant/constant';
 import ProjectCardBox from '@/components/card_box/ProjectCardBox';
 import { Form } from '@/types/types';
-
-type PageProps = { data: Project[]; total: number };
+import useProjectJH from '@/hooks/react-query/useProjectJH';
 
 const ProjectHome = () => {
   const router = useRouter();
@@ -27,100 +26,10 @@ const ProjectHome = () => {
     setFilter(PROJECT_FILTER[name]);
   };
 
-  //필터 변경 시, 이펙트
-  useEffect(() => {
-    refetch();
-  }, [filter]);
-
-  //주소
-  const address = () => {
-    if (search && filter) {
-      return `${router.asPath}&size=${page_limit}&filter=${filter}`;
-    }
-    if (search || filter) {
-      return `${router.asPath}&size=${page_limit}`;
-    }
-    return `${router.asPath}?size=${page_limit}`;
-  };
-
-  //쿼리 키
-  const queryKey = () => {
-    if (search && filter) {
-      return ['projects', search, filter];
-    }
-    if (search || filter) {
-      return ['projects', search || filter];
-    }
-    return ['projects'];
-  };
-
-  //라우터 이동 시,
-  useEffect(() => {
-    if (watch().search !== '') {
-      window.scrollTo({
-        top: 600,
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [router]);
-
-  //무한스크롤 데이터
-  const page_limit = 4;
   const {
-    isLoading,
-    error,
-    data,
-    refetch,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery(
-    queryKey(),
-    ({ pageParam = 1 }) =>
-      api(`${address()}&page=${pageParam}`).then((res) => res.data),
-    {
-      getNextPageParam: (lastPage: PageProps, allPages: PageProps[]) => {
-        if (lastPage.data.length < page_limit) {
-          return null;
-        }
-        return allPages.length + 1;
-      },
-    }
-  );
+    projectQuery: { data },
+  } = useProjectJH({});
 
-  //무한 스크롤 effect
-  const target = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (
-      target.current &&
-      data?.pageParams &&
-      data?.pageParams[data.pageParams.length - 1] === null
-    ) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 }
-    );
-
-    if (target.current) {
-      observer.observe(target.current);
-    }
-
-    return () => {
-      if (target.current) {
-        observer.unobserve(target.current);
-      }
-    };
-  }, [target.current, data?.pageParams]);
-
-  if (isLoading) return <Message>로딩중입니다.</Message>;
-  if (error) return <Message>잠시 후 다시 시도해주세요.</Message>;
   if (data)
     return (
       <Box>

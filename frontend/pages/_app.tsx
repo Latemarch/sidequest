@@ -20,10 +20,6 @@ const queryClient = new QueryClient({
   },
 });
 
-if (process.env.NODE_ENV === 'development') {
-  require('../__mocks__');
-}
-
 const App = ({ Component, pageProps }: AppProps) => {
   const [isContact, setIsContact] = useState(false);
   const contactHandler = () => {
